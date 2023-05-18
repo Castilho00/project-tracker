@@ -2,6 +2,7 @@ package com.eu.castilho.project.tracker.entities;
 
 import jakarta.persistence.*;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -79,7 +80,27 @@ public class Project {
     public Long getDuration() {
         LocalDateTime start = LocalDateTime.parse(this.startHour, fmt1);
         LocalDateTime end = LocalDateTime.parse(this.endHour, fmt1);
-        return Duration.between(start, end).toHours();
+
+        long durationInDays = Duration.between(start, end).toDays();
+        long durationInHours = Duration.between(start, end).toHours();
+
+        LocalDateTime currentDay = start;
+        long workingDays = 0;
+        long totalWorked;
+
+        while (currentDay.isBefore(end)){
+            if (currentDay.getDayOfWeek() != DayOfWeek.SATURDAY && currentDay.getDayOfWeek() != DayOfWeek.SUNDAY){
+                workingDays++;
+            }
+            currentDay = currentDay.plusDays(1);
+        }
+
+        if(durationInDays == 0){
+            totalWorked = workingDays * durationInHours;
+        } else {
+            totalWorked = workingDays * 8;
+        }
+        return totalWorked;
     }
 
     public void setDuration(Long duration) {
