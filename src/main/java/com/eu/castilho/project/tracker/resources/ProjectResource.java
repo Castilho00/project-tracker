@@ -4,11 +4,10 @@ import com.eu.castilho.project.tracker.entities.Project;
 import com.eu.castilho.project.tracker.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,6 +27,25 @@ public class ProjectResource {
     public ResponseEntity<Project> findById(@PathVariable Long id){
         Project obj = projectService.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @PostMapping
+    public ResponseEntity<Project> insert (@RequestBody Project project){
+        project = projectService.insert(project);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(project.getId()).toUri();
+        return ResponseEntity.created(uri).body(project);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        projectService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity update(@PathVariable Long id, @RequestBody Project project){
+        project = projectService.update(id, project);
+        return ResponseEntity.ok().body(project);
     }
 
 }

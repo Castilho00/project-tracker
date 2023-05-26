@@ -17,19 +17,22 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private Long id;
     @JoinColumn(name = "Name")
     private String projectName;
-    @JoinColumn(name = "Start_Hour")
+    @JoinColumn(name = "InitialHour")
     private String startHour;
-    @JoinColumn(name = "End_Hour")
+    @JoinColumn(name = "EndHour")
     private String endHour;
-    @JoinColumn(name = "Value_Per_Hour")
+    @JoinColumn(name = "ValuePerHour")
     private Double valuePerHour;
-    @JoinColumn(name = "Duration_Project")
+    @JoinColumn(name = "Duration")
     private Long duration;
-    @JoinColumn(name = "Total_Value")
+    @JoinColumn(name = "TotalValue")
     private Double totalValue;
+
+    public Project() {
+    }
 
     public Project(Long id, String projectName, String startHour, String endHour, Double valuePerHour, Project duration, Project totalValue) {
         this.id = id;
