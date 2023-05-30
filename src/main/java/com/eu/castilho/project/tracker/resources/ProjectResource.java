@@ -2,6 +2,7 @@ package com.eu.castilho.project.tracker.resources;
 
 import com.eu.castilho.project.tracker.entities.Project;
 import com.eu.castilho.project.tracker.services.ProjectService;
+import com.eu.castilho.project.tracker.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

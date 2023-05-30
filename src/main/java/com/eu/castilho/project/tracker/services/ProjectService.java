@@ -25,7 +25,7 @@ public class ProjectService {
 
     public Project findById(Long id){
         Optional<Project> obj = projectRepository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public Project insert(Project project){

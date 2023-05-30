@@ -81,8 +81,8 @@ public class Project {
     }
 
     public Long getDuration() {
-        LocalDateTime start = LocalDateTime.parse(this.startHour, fmt1);
-        LocalDateTime end = LocalDateTime.parse(this.endHour, fmt1);
+        LocalDateTime start = LocalDateTime.parse(getStartHour(), fmt1);
+        LocalDateTime end = LocalDateTime.parse(getEndHour(), fmt1);
 
         long durationInDays = Duration.between(start, end).toDays();
         long durationInHours = Duration.between(start, end).toHours();
@@ -99,7 +99,7 @@ public class Project {
         }
 
         if(durationInDays == 0){
-            totalWorked = workingDays * durationInHours;
+            totalWorked = durationInHours;
         } else {
             totalWorked = workingDays * 8;
         }
