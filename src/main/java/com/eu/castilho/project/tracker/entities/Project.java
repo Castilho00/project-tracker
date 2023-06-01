@@ -1,5 +1,6 @@
 package com.eu.castilho.project.tracker.entities;
 
+import com.eu.castilho.project.tracker.services.exceptions.InvalidDateException;
 import jakarta.persistence.*;
 
 import java.time.DayOfWeek;
@@ -34,7 +35,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(Long id, String projectName, String startHour, String endHour, Double valuePerHour, Project duration, Project totalValue) {
+    public Project(Long id, String projectName, String startHour, String endHour, Double valuePerHour) {
         this.id = id;
         this.projectName = projectName;
         this.startHour = startHour;
@@ -83,6 +84,8 @@ public class Project {
     public Long getDuration() {
         LocalDateTime start = LocalDateTime.parse(getStartHour(), fmt1);
         LocalDateTime end = LocalDateTime.parse(getEndHour(), fmt1);
+
+        VerifyDate(start, end);
 
         long durationInDays = Duration.between(start, end).toDays();
         long durationInHours = Duration.between(start, end).toHours();
@@ -143,4 +146,11 @@ public class Project {
                 ", totalValue=" + getTotalValue() +
                 '}';
     }
+
+    public void VerifyDate(LocalDateTime startDate, LocalDateTime endDate){
+        if(startDate.isAfter(endDate)){
+            throw new InvalidDateException("The initial Date/Hour have to be before the end Date/Hour");
+        }
+    }
+
 }
